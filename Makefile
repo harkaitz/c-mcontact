@@ -14,7 +14,7 @@ PROGRAMS   =mcontact
 LIBRARIES  =libmcontact.a
 HEADERS    =mcontact.h
 MARKDOWNS  =README.md mcontact.3.md
-MANPAGES_3 =
+MANPAGES_3 =mcontact.3
 SOURCES    =main.c mcontact.c
 ## AUXILIARY
 CFLAGS_ALL =$(LDFLAGS) $(CFLAGS) $(CPPFLAGS)
@@ -32,6 +32,9 @@ install: all
 	install -m644 $(HEADERS)    $(DESTDIR)$(PREFIX)/include
 	install -d                  $(DESTDIR)$(PREFIX)/lib
 	install -m644 $(LIBRARIES)  $(DESTDIR)$(PREFIX)/lib
+	install -d                  $(DESTDIR)$(PREFIX)/share/man/man3
+	install -m644 $(MANPAGES_3) $(DESTDIR)$(PREFIX)/share/man/man3
+
 clean:
 	rm -f $(PROGRAMS) $(LIBRARIES)
 ssnip:
