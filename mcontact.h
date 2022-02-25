@@ -24,7 +24,7 @@ extern const char *g_mcontact_type;
 bool mcontact_validate (const mcontact *_c);
 
 /* DATABASE */
-bool mcontact_db_open     (mdb *_db);
+bool mcontact_db_open     (mdb *_db, const char *_opt_mode /* rwos */);
 bool mcontact_db_delete   (mdb *_db, const uuid_t _c_id);
 bool mcontact_db_insert   (mdb *_db, mcontact    *_c);
 bool mcontact_db_replace  (mdb *_db, const mcontact *_c);

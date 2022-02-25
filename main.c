@@ -11,7 +11,7 @@
 
 #define NL "\n"
 #define COPYRIGHT_LINE \
-    "Donate bitcoin: 1C1ZzDje7vHhF23mxqfcACE8QD4nqxywiV" "\n" \
+    "Bug reports, feature requests to gemini|https://harkadev.com/oss" "\n" \
     "Copyright (c) 2022 Harkaitz Agirre, harkaitz.aguirre@gmail.com" "\n" \
     ""
 
@@ -20,17 +20,20 @@ int  main_print_mcontact (mcontact *_c, FILE *_fp1);
 bool main_edit_mcontact  (mcontact *_c, char *_opts[]);
 
 static const char help[] =
-    "Usage: %s ..."                                        NL
-    ""                                                     NL
-    "Manage contact databases written with `mcontact(3)`." NL
-    ""                                                     NL
-    "    -a USER     : Select the contact sheet."          NL
-    "    -t DATATYPE : Select the contact application."    NL
-    ""                                                     NL
-    "    -s [id=ID] [OPTS...] : Create/modify contact."    NL
-    "    -l                   : List contacts."            NL
-    "    -d ID...             : Delete contact."           NL
-    ""                                                     NL
+    "Usage: %s ..."                                         NL
+    ""                                                      NL
+    "Manage contact databases written with `mcontact(3)`."  NL
+    ""                                                      NL
+    "Options: name=T address=T town=T province=T zipcode=T" NL
+    "         email=E description=D"                        NL
+    ""                                                      NL
+    "    -a USER     : Select the contact sheet."           NL
+    "    -t DATATYPE : Select the contact application."     NL
+    ""                                                      NL
+    "    -s [id=ID] [OPTS...] : Create/modify contact."     NL
+    "    -l [NAME|@]          : List contacts."             NL
+    "    -d ID...             : Delete contact."            NL
+    ""                                                      NL
     COPYRIGHT_LINE
     ;
 
@@ -46,6 +49,7 @@ int main (int _argc, char *_argv[]) {
     uuid_t        id;
     uuid_ss       id_s;
     char         *id_ss;
+    char         *name;
     
 
     /* Print help and set logging. */
@@ -77,7 +81,7 @@ int main (int _argc, char *_argv[]) {
     /* Connect to database. */
     res = mdb_create(&db, NULL);
     if (!res/*err*/) goto cleanup;
-    res = mcontact_db_open(db);
+    res = mcontact_db_open(db, NULL);
     if (!res/*err*/) goto cleanup;
     
     /* Commands. */
@@ -103,15 +107,29 @@ int main (int _argc, char *_argv[]) {
         if (!res/*err*/) goto cleanup;
         break;
     case 'l':
+        if (optind < _argc) {
+            name = _argv[optind];
+        } else {
+            name = NULL;
+        }
         res = mcontact_db_iter_create(db, &iter);
         if (!res/*err*/) goto cleanup;
         while (mcontact_db_iter_loop(iter, id)) {
-            fprintf_i(stdout, "%s", uuid_str(id, &id_s));
-            res = mcontact_db_search(db, id, &mcontact, NULL);
-            if (!res/*err*/) goto cleanup;
-            findent(stdout, 1);
-            main_print_mcontact(&mcontact, stdout);
-            findent(stdout, -1);
+            if (!name) {
+                fprintf_i(stdout, "[%s]", uuid_str(id, &id_s));
+                res = mcontact_db_search(db, id, &mcontact, NULL);
+                if (!res/*err*/) goto cleanup;
+                findent(stdout, 1);
+                main_print_mcontact(&mcontact, stdout);
+                findent(stdout, -1);
+            } else if (!strcmp(name, "@")) {
+                fprintf_i(stdout, "%s", uuid_str(id, &id_s));
+            } else {
+                res = mcontact_db_search(db, id, &mcontact, NULL);
+                if (!res/*err*/) goto cleanup;
+                if (strcasecmp(mcontact.name, name)) continue;
+                fprintf_i(stdout, "%s", uuid_str(id, &id_s));
+            }
         }
         res = mdb_iter_destroy(&iter);
         if (!res/*err*/) goto cleanup;
