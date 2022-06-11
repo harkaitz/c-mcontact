@@ -1,16 +1,18 @@
 ## Configuration
-DESTDIR    =
-PREFIX     =/usr/local
-AR         =ar
-CC         =gcc
-CFLAGS     =-Wall -g
-CPPFLAGS   =
-LIBS       =\
+DESTDIR      =
+PREFIX       =/usr/local
+INSTALL_LIBS =y
+PROGRAM_NAME =mcontact
+AR           =ar
+CC           =gcc
+CFLAGS       =-Wall -g
+CPPFLAGS     =
+LIBS         =\
     "-l:libmdb.a"  \
     "-l:libgdbm.a" \
     "-l:libuuid.a"
 ## Sources and targets
-PROGRAMS   =mcontact
+PROGRAMS   =$(PROGRAM_NAME)
 LIBRARIES  =libmcontact.a
 HEADERS    =mcontact.h
 MARKDOWNS  =README.md mcontact.3.md
@@ -28,21 +30,22 @@ help:
 install: all
 	install -d                  $(DESTDIR)$(PREFIX)/bin
 	install -m755 $(PROGRAMS)   $(DESTDIR)$(PREFIX)/bin
+        ifeq ($(INSTALL_LIBS),y)
 	install -d                  $(DESTDIR)$(PREFIX)/include
 	install -m644 $(HEADERS)    $(DESTDIR)$(PREFIX)/include
 	install -d                  $(DESTDIR)$(PREFIX)/lib
 	install -m644 $(LIBRARIES)  $(DESTDIR)$(PREFIX)/lib
 	install -d                  $(DESTDIR)$(PREFIX)/share/man/man3
 	install -m644 $(MANPAGES_3) $(DESTDIR)$(PREFIX)/share/man/man3
+        endif
 
 clean:
 	rm -f $(PROGRAMS) $(LIBRARIES)
-ssnip:
-	ssnip LICENSE $(MARKDOWNS) $(HEADERS) $(SOURCES) $(MANPAGES_3)
 
 libmcontact.a : mcontact.c $(HEADERS)
 	$(CC) -o mcontact.o -c mcontact.c $(CFLAGS_ALL)
 	$(AR) -crs $@ mcontact.o
 	rm -f mcontact.o
-mcontact: main.c libmcontact.a $(HEADERS)
+
+$(PROGRAM_NAME): main.c libmcontact.a $(HEADERS)
 	$(CC) -o $@ main.c libmcontact.a $(CFLAGS_ALL) $(LIBS)

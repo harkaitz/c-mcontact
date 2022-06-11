@@ -19,7 +19,7 @@ struct mcontact, g_mcontact_type, mcontact_validate()
     
     extern const char *g_mcontact_type;
     
-    bool mcontact_validate (const mcontact *_c);
+    bool mcontact_validate (const mcontact *_c, const char **_opt_reason);
     
     /* DATABASE */
     bool mcontact_db_open     (mdb *_db);
