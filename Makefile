@@ -49,3 +49,13 @@ libmcontact.a : mcontact.c $(HEADERS)
 
 $(PROGRAM_NAME): main.c libmcontact.a $(HEADERS)
 	$(CC) -o $@ main.c libmcontact.a $(CFLAGS_ALL) $(LIBS)
+## -- gettext --
+ifneq ($(PREFIX),)
+install: install-po
+install-po:
+	mkdir -p $(DESTDIR)$(PREFIX)/share/locale/es/LC_MESSAGES
+	cp locales/es/LC_MESSAGES/c-mcontact.mo $(DESTDIR)$(PREFIX)/share/locale/es/LC_MESSAGES
+	mkdir -p $(DESTDIR)$(PREFIX)/share/locale/eu/LC_MESSAGES
+	cp locales/eu/LC_MESSAGES/c-mcontact.mo $(DESTDIR)$(PREFIX)/share/locale/eu/LC_MESSAGES
+endif
+## -- gettext --

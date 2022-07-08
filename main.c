@@ -3,9 +3,8 @@
 #include <libgen.h>
 #include <sys/authorization.h>
 #include <str/strarray.h>
-#include <mdb.h>
-#include <io/slog.h>
 #include <types/uuid_ss.h>
+#include <mdb.h>
 
 #define COPYRIGHT_LINE \
     "Bug reports, feature requests to gemini|https://harkadev.com/oss" "\n" \
@@ -115,7 +114,7 @@ int main (int _argc, char *_argv[]) {
             if (!e/*err*/) goto cleanup;
         }
     } else {
-        error("Invalid subcommand: %s", command);
+        syslog(LOG_ERR, "Invalid subcommand: %s", command);
         goto cleanup;
     }
     

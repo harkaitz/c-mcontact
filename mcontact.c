@@ -1,6 +1,4 @@
 #include "mcontact.h"
-#include <io/slog.h>
-#include <str/mtext.h>
 #include <str/str2num.h>
 #include <str/compat.h>
 #include <ftemplate.h>
@@ -8,6 +6,13 @@
 #include <mdb.h>
 #include <uuid/uuid.h>
 #include <errno.h>
+#ifdef NO_GETTEXT
+#  define _(T) (T)
+#else
+#  include <libintl.h>
+#  define _(T) dgettext("c-mcontact", T)
+#endif
+
 
 __attribute__((weak)) const char *MCONTACT_DATABASE           = "mcontact";
 __attribute__((weak)) const char *MCONTACT_HTML_TAGS_TD_LABEL = "";
@@ -16,7 +21,7 @@ __attribute__((weak)) const char *MCONTACT_HTML_TAGS_TD_DATA  = "";
 
 bool mcontact_validate (const mcontact *_c, const char **_reason) {
     if (_c->name[0]=='\0') {
-        error_reason(_reason, MISSING_NAME, "Missing name");
+        if (_reason) *_reason = _("Missing name");
         return false;
     } else if (_c->email.s[0] && !email_is_valid(&_c->email, _reason)) {
         return false;
@@ -113,7 +118,7 @@ bool mcontact_ftemplate(FILE *_fp, const mcontact *_c, const char _k[]) {
                 "      </td>"             NL
                 "    </tr>"               NL
                 , MCONTACT_HTML_TAGS_TD_LABEL
-                , MTXT(HTML_LABEL_NAME,"Name")
+                , _("Name")
                 , MCONTACT_HTML_TAGS_TD_DATA
                 , _c->name);
         if (_c->email.s[0]) {
@@ -127,7 +132,7 @@ bool mcontact_ftemplate(FILE *_fp, const mcontact *_c, const char _k[]) {
                     "  </td>"             NL
                     "</tr>"               NL
                     , MCONTACT_HTML_TAGS_TD_LABEL
-                    , MTXT(HTML_LABEL_EMAIL, "E-mail")
+                    , _("E-mail")
                     , MCONTACT_HTML_TAGS_TD_DATA
                     , _c->email.s
                     , _c->email.s);
@@ -143,7 +148,7 @@ bool mcontact_ftemplate(FILE *_fp, const mcontact *_c, const char _k[]) {
                     "  </td>"             NL
                     "</tr>"               NL
                     , MCONTACT_HTML_TAGS_TD_LABEL
-                    , MTXT(HTML_LABEL_TELEPHONE, "Telephone")
+                    , _("Telephone")
                     , MCONTACT_HTML_TAGS_TD_DATA
                     , _c->telephone
                     , _c->telephone);
