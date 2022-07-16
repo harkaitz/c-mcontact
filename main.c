@@ -1,7 +1,6 @@
 #include "mcontact.h"
 #include <unistd.h>
 #include <libgen.h>
-#include <sys/authorization.h>
 #include <str/strarray.h>
 #include <types/uuid_ss.h>
 #include <mdb.h>
@@ -54,15 +53,14 @@ int main (int _argc, char *_argv[]) {
 
     /* Start logging. */
     openlog(pname, LOG_PERROR, LOG_USER);
-
-    /* Select user. */
-    authorization_open(username);
     
     /* Connect to database. */
     e = mdb_create(&mdb, NULL);
     if (!e/*err*/) goto cleanup;
-    e = mcontact_db_open(mdb, "rw");
-    if (!e/*err*/) goto cleanup;
+
+    /* Map to user's contacts. */
+    mdb_map(mdb, "mcontact", "mcontact::%s", username);
+
     /* Commands. */
     if (!strcmp(command, "edit")) {
         char *opts[_argc*2];
@@ -104,8 +102,7 @@ int main (int _argc, char *_argv[]) {
                 printf("%s\n", uuid_str(id, &id_s));
             }
         }
-        e = mdb_iter_destroy(&iter);
-        if (!e/*err*/) goto cleanup;
+        mcontact_db_iter_destroy(&iter);
     } else if (!strcmp(command, "delete")) {
         for (char **o = arguments; *o; o++) {
             e = uuid_parse_secure(id, *o, false, NULL);

@@ -7,7 +7,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-08 05:07+0200\n"
 "PO-Revision-Date: 2022-07-08 04:33+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,18 +16,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: mcontact.c:24
+#: mcontact.c:22
 msgid "Missing name"
 msgstr "Falta el nombre"
 
-#: mcontact.c:121
+#: mcontact.c:99
 msgid "Name"
 msgstr "Nombre"
 
-#: mcontact.c:135
+#: mcontact.c:113
 msgid "E-mail"
 msgstr "E-mail"
 
-#: mcontact.c:151
+#: mcontact.c:129
 msgid "Telephone"
 msgstr "Teléfono"
