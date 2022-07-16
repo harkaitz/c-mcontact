@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include "mcontact.h"
 #include <unistd.h>
 #include <libgen.h>
@@ -65,7 +66,7 @@ int main (int _argc, char *_argv[]) {
     if (!strcmp(command, "edit")) {
         char *opts[_argc*2];
         streq2map(arguments, _argc*2, opts);
-        char *id_ss = strmap_get(opts, "id", strcasecmp);
+        char *id_ss = strmap_get_val((void*)opts, "id", strcasecmp, NULL);
         if (id_ss) {
             e = uuid_parse_secure(id, id_ss, false, NULL);
             if (!e/*err*/) goto cleanup;
