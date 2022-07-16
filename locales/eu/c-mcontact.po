@@ -15,18 +15,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mcontact.c:22
+#: mcontact.c:25
 msgid "Missing name"
 msgstr "Izena falta da"
 
-#: mcontact.c:99
+#: mcontact.c:102
 msgid "Name"
 msgstr "izena"
 
-#: mcontact.c:113
+#: mcontact.c:116
 msgid "E-mail"
 msgstr "E-mail"
 
-#: mcontact.c:129
+#: mcontact.c:132
 msgid "Telephone"
 msgstr "Telefonoa"

@@ -16,18 +16,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: mcontact.c:22
+#: mcontact.c:25
 msgid "Missing name"
 msgstr "Falta el nombre"
 
-#: mcontact.c:99
+#: mcontact.c:102
 msgid "Name"
 msgstr "Nombre"
 
-#: mcontact.c:113
+#: mcontact.c:116
 msgid "E-mail"
 msgstr "E-mail"
 
-#: mcontact.c:129
+#: mcontact.c:132
 msgid "Telephone"
 msgstr "Teléfono"

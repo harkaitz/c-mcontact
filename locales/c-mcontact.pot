@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-16 11:23+0200\n"
+"POT-Creation-Date: 2022-07-16 11:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,18 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mcontact.c:22
+#: mcontact.c:25
 msgid "Missing name"
 msgstr ""
 
-#: mcontact.c:99
+#: mcontact.c:102
 msgid "Name"
 msgstr ""
 
-#: mcontact.c:113
+#: mcontact.c:116
 msgid "E-mail"
 msgstr ""
 
-#: mcontact.c:129
+#: mcontact.c:132
 msgid "Telephone"
 msgstr ""
